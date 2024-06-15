@@ -3,14 +3,17 @@ package com.example.locationapp
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Looper
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.model.LatLng
+import java.util.Locale
 
 class LocationUtils(private val context: Context) {
     private val _fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
@@ -49,6 +52,18 @@ class LocationUtils(private val context: Context) {
             locationCallback,
             Looper.getMainLooper()
         )
+    }
+
+    fun reverseGeocodeLocation(locationData: LocationData): String {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val coordinate = LatLng(locationData.latitude, locationData.longitude)
+        @Suppress("DEPRECATION") val addresses: MutableList<Address>? = geocoder.getFromLocation(coordinate.latitude, coordinate.longitude, 1)
+
+        return if (addresses?.isNotEmpty() == true) {
+            addresses[0].getAddressLine(0)
+        } else {
+            "Unknown location"
+        }
     }
 
     fun isLocationEnabled(): Boolean {

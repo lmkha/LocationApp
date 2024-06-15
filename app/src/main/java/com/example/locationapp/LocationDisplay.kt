@@ -85,7 +85,9 @@ fun LocationDisplay(
             verticalArrangement = Arrangement.Center
         ) {
             location?.let { locationData ->
+                val address = locationUtils.reverseGeocodeLocation(locationData)
                 Text(text = "Location: ${locationData.latitude}, ${locationData.longitude}")
+                Text(text = address)
             } ?: Text(text = "No location available")
 
             Button(
