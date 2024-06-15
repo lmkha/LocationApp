@@ -19,14 +19,17 @@ class LocationUtils(private val context: Context) {
     private val _fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
     fun hasLocationPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
+        val hasFineLocationPermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(
+
+        val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
+
+        return hasFineLocationPermission && hasCoarseLocationPermission
     }
 
     @Suppress("MissingPermission")
