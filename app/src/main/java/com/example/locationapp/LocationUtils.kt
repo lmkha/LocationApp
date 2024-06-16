@@ -2,6 +2,7 @@ package com.example.locationapp
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -14,6 +15,8 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import java.util.Locale
+import android.provider.Settings
+import android.net.Uri
 
 class LocationUtils(private val context: Context) {
     private val _fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
@@ -74,4 +77,10 @@ class LocationUtils(private val context: Context) {
         return locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)
     }
 
+    fun openAppSettings(context: Context) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", context.packageName, null)
+        intent.data = uri
+        context.startActivity(intent)
+    }
 }

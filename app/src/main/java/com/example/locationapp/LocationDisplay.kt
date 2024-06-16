@@ -65,12 +65,7 @@ fun LocationDisplay(
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
-                        // Permission denied, but never ask again is not checked
-                        Toast.makeText(
-                            context,
-                            "Please enable location in settings",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        locationUtils.openAppSettings(context)
                     }
                 }
             }
